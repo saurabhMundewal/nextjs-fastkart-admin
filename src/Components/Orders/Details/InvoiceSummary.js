@@ -11,7 +11,6 @@ import ReceiptModal from './ReceiptModal'
 const InvoiceSummary = ({ data }) => {
     
     const { t } = useTranslation( 'common');
-    console.log(data, 'data on invoice summary')
     const { convertCurrency } = useContext(SettingContext)
     const [ openReceiptModal, setOpenReceiptModal ] = useState(false);
     return (
