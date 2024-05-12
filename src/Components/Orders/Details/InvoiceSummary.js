@@ -22,7 +22,7 @@ const InvoiceSummary = ({ data }) => {
                     </div>
                     {data?.invoice_url && <div className='d-flex gap-2'> 
                         <Btn  className="btn-animation btn-sm ms-auto btn-outline" onClick={() => setOpenReceiptModal(true)}>{t("Receipt")}</Btn>
-                        <Link href={data?.invoice_url} className="btn btn-animation btn-sm ">{t("Invoice")}</Link></div>}
+                         <Link href={data?.invoice_url?.replace('https://apis.vector-x.com/', 'https://apis.vector-x.com/api/')} className="btn btn-animation btn-sm ">{t("Invoice")}</Link></div>}
                 </div>
                 <div className="tracking-total tracking-wrapper">
                     <ul>
