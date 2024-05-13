@@ -52,7 +52,7 @@ const GeneralTab = ({ values, setFieldValue ,updateId }) => {
           },
         ]}
       />}
-      <SimpleInputField nameList={[{ name: "name", require: "true", placeholder: t("EnterName") }, { name: "short_description", require: "true", title: "ShortDescription", type: "textarea", rows: 3, placeholder: t("EnterShortDescription"), helpertext: "*Maximum length should be 300 characters." }]} />
+      <SimpleInputField nameList={[{ name: "name", require: "true", placeholder: t("EnterName") }, { name: "hsn_code", title: "HSN Code", require: "true", placeholder: t("Enter HSN Code") },{ name: "short_description", require: "true", title: "ShortDescription", type: "textarea", rows: 3, placeholder: t("EnterShortDescription"), helpertext: "*Maximum length should be 300 characters." }]} />
       <DescriptionInput values={values} setFieldValue={setFieldValue} title={t('Description')} nameKey="description" errorMessage={"Descriptionisrequired"} />
       <SearchableSelectInput
         nameList={[

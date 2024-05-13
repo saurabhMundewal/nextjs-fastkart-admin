@@ -48,6 +48,7 @@ export function ProductInitValues(oldData, updateId) {
     product_type:updateId ? oldData?.product_type || "" : "physical",
     store_id: updateId ? Number(oldData?.store_id) || "" : "",
     name: updateId ? oldData?.name || "" : "",
+    hsn_code: updateId ? oldData?.hsn_code || "" : "",
     short_description: updateId ? oldData?.short_description || "" : "",
     description: updateId ? oldData?.description || "" : "",
     tax_id :updateId ? Number(oldData?.tax_id) || "" : "",
