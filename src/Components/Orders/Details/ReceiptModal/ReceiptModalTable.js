@@ -38,17 +38,17 @@ const ReceiptModalTable = ({ data }) => {
                     </tr>
                 }
 
-                <tr className="total-box">
+                {/* <tr className="total-box">
                     <td colSpan="2" className="text-end description">{t("Tax")}:</td>
                     <td className="price">{convertCurrency(data?.tax_total ? data?.tax_total : 0)}</td>
-                </tr>
+                </tr> */}
                 <tr className="total-box">
                     <td colSpan="2" className="text-end description">{t("Discount")}:</td>
                     <td className="price">{convertCurrency(data?.coupon_total_discount ? data?.coupon_total_discount : 0)}</td>
                 </tr>
                 <tr className="total-box">
                     <td colSpan="2" className="text-end description">{t("GrandTotal")}:</td>
-                    <td className="price">{convertCurrency(data?.total ? data?.total : 0)}</td>
+                    <td className="price">{convertCurrency(data?.total ? data?.total - data?.tax_total : 0)}</td>
                 </tr>
             </tbody>
         </Table>
