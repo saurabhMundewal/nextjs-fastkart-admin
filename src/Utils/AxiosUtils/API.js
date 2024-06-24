@@ -58,6 +58,7 @@ export const coupon = "/coupon";
 // product api
 export const product = "/product";
 export const Approved = '/approve'
+export const switchToDelhivery = '/orderDelhivery'
 export const ProductImportAPI = "product/csv/import";
 export const ProductExportAPI = "product/csv/export";
 

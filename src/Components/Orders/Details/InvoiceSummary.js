@@ -1,18 +1,40 @@
 import React, { useContext, useState } from 'react'
 import Link from 'next/link'
 import { Card, CardBody } from 'reactstrap'
-
 import SettingContext from '@/Helper/SettingContext'
 import { useTranslation } from "react-i18next";
 import Btn from '@/Elements/Buttons/Btn'
 import ReceiptModal from './ReceiptModal'
+import { switchToDelhivery } from '@/Utils/AxiosUtils/API';
+import request from "@/Utils/AxiosUtils";
+import { ToastNotification } from '@/Utils/CustomFunctions/ToastNotification';
 
 
 const InvoiceSummary = ({ data }) => {
+
+    // const handleSwitchDelhivery =(productData) =>{
+        
+    //     console.log(productData, 'productData')
+    // }
+
+    const handleSwitchDelhivery = async (productData) => {
+        try {
+            const cancelOrderResponse = await request({ url: switchToDelhivery, data:productData, method: "post" });        
+              ToastNotification("success", 'Order Succesfully Moved to One-Delhivery')
+            //   setTimeout(() => {
+            //     router.push(`/account/order`);
+            //   }, 500);
     
-    const { t } = useTranslation( 'common');
+        } catch (error) {
+          ToastNotification("error", 'Order is not Moved, Please try again')
+          //console.error('Error cancelling order:', error.message);
+          // Handle error as needed
+        }
+      };
+
+    const { t } = useTranslation('common');
     const { convertCurrency } = useContext(SettingContext)
-    const [ openReceiptModal, setOpenReceiptModal ] = useState(false);
+    const [openReceiptModal, setOpenReceiptModal] = useState(false);
     return (
         <Card>
             <CardBody>
@@ -20,9 +42,10 @@ const InvoiceSummary = ({ data }) => {
                     <div className="d-flex align-items-center">
                         <h5>{("Summary")}</h5>
                     </div>
-                    {data?.invoice_url && <div className='d-flex gap-2'> 
-                        <Btn  className="btn-animation btn-sm ms-auto btn-outline" onClick={() => setOpenReceiptModal(true)}>{t("Receipt")}</Btn>
-                         <Link href={data?.invoice_url?.replace('https://apis.vector-x.com/', 'https://apis.vector-x.com/api/')} className="btn btn-animation btn-sm ">{t("Invoice")}</Link></div>}
+                    <Btn className="btn-animation btn-sm ms-auto btn-outline" onClick={() => handleSwitchDelhivery(data)}>{t("Switch to Delhivery")}</Btn>
+                    {data?.invoice_url && <div className='d-flex gap-2'>
+                        <Btn className="btn-animation btn-sm ms-auto btn-outline" onClick={() => setOpenReceiptModal(true)}>{t("Receipt")}</Btn>
+                        <Link href={data?.invoice_url?.replace('https://apis.vector-x.com/', 'https://apis.vector-x.com/api/')} className="btn btn-animation btn-sm ">{t("Invoice")}</Link></div>}
                 </div>
                 <div className="tracking-total tracking-wrapper">
                     <ul>
