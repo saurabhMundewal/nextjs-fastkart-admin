@@ -42,9 +42,10 @@ const OrderDetailsContain = ({ updateId }) => {
         <Row className='pb-4'>
             <Col xxl="9">
                 {!data?.sub_orders?.length > 0 && <div className="mb-4">
-                    <div className="tracking-panel">
-                        <TrackingPanel order={data} orderStatusData={orderStatusData} orderStatus={orderStatus} mutate={mutate} />
-                    </div>
+                    {data?.is_oneDelhivery === 0 ?
+                        <div className="tracking-panel">
+                            <TrackingPanel order={data} orderStatusData={orderStatusData} orderStatus={orderStatus} mutate={mutate} />
+                        </div> : <h5 className='bold'>Order has been moved to Shiprocket. Please check the order status on the Shiprocket dashboard.</h5>}
                 </div>}
                 <Col sm="12">
                     <OrderNumberTable refetch={refetch} moduleName={`${t('OrderNumber')}: #${data?.order_number}`} data={data} orderStatusData={orderStatusData} setOrderStatus={setOrderStatus} orderStatus={orderStatus} mutate={mutate} orderStatusUpdate={orderStatusUpdate} edit={edit} />
