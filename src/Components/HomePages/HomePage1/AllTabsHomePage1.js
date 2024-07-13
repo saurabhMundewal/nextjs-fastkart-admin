@@ -1,5 +1,6 @@
 import { Col, TabContent, TabPane } from 'reactstrap'
 import HomeBannerTab from './HomeBannerTab'
+import HomeMobileBannerTab from './HomeMobileBannerTab'
 import FeatureBannerTab from './FeatureBannerTab'
 import MainContentTab from './MainContentTab'
 import NewsLetterTab from './NewsLetterTab'
@@ -81,10 +82,11 @@ const AllTabsHomePage1 = forwardRef(({ activeTab, values, setFieldValue }, ref) 
         <Col xl="7" lg="8">
             <TabContent activeTab={activeTab}>
                 <TabPane tabId="1"><HomeBannerTab values={values} setFieldValue={setFieldValue} productData={productData} categoryData={categoryData} setSearch={setSearch} /></TabPane>
-                <TabPane tabId="2"><FeatureBannerTab values={values} setFieldValue={setFieldValue} productData={productData} categoryData={categoryData} isDiscount={true} isButtonText={true} setSearch={setSearch} /></TabPane>
-                <TabPane tabId="3"><MainContentTab setStoreSearch={setStoreSearch} storeData={storeData} values={values} setFieldValue={setFieldValue} productData={productData} categoryData={categoryData} setSearch={setSearch} /></TabPane>
-                <TabPane tabId="4"><BrandsTab name={"brandIds"}  setBrandSearch={setBrandSearch} brandData={brandData} /></TabPane>
-                <TabPane tabId="5"><NewsLetterTab values={values} setFieldValue={setFieldValue} /></TabPane>
+                <TabPane tabId="2"><HomeMobileBannerTab values={values} setFieldValue={setFieldValue} productData={productData} categoryData={categoryData} setSearch={setSearch} /></TabPane>
+                <TabPane tabId="3"><FeatureBannerTab values={values} setFieldValue={setFieldValue} productData={productData} categoryData={categoryData} isDiscount={true} isButtonText={true} setSearch={setSearch} /></TabPane>
+                <TabPane tabId="4"><MainContentTab setStoreSearch={setStoreSearch} storeData={storeData} values={values} setFieldValue={setFieldValue} productData={productData} categoryData={categoryData} setSearch={setSearch} /></TabPane>
+                <TabPane tabId="5"><BrandsTab name={"brandIds"}  setBrandSearch={setBrandSearch} brandData={brandData} /></TabPane>
+                <TabPane tabId="6"><NewsLetterTab values={values} setFieldValue={setFieldValue} /></TabPane>
             </TabContent>
         </Col>
     )

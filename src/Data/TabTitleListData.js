@@ -600,6 +600,7 @@ export const PaymentDetailTab = [
 
 export const HomePage1SettingTitle = [
   { title: "HomeBanner", icon: <RiRecordCircleLine /> },
+  { title: "HomeMobileBanner", icon: <RiRecordCircleLine /> },
   { title: "FeaturesBanner", icon: <RiRecordCircleLine /> },
   { title: "MainContent", icon: <RiRecordCircleLine /> },
   { title: "Brands", icon: <RiRecordCircleLine /> },
