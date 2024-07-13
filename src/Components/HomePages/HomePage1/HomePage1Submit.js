@@ -71,13 +71,25 @@ if (values['section138CategoryImage']) {
         values['content']['home_banner']['main_banner']['image_url'] = values['homeBannerMainImage'].original_url
     } else values['content']['home_banner']['main_banner']['image_url'] = ''
 
+    if (values['homeMobileBannerMainImage']) {
+        values['content']['home_Mobile_banner']['main_banner']['image_url'] = values['homeMobileBannerMainImage'].original_url
+    } else values['content']['home_Mobile_banner']['main_banner']['image_url'] = ''
+
     if (values['homeBannerSubBanner1Image']) {
         values['content']['home_banner']['sub_banner_1']['image_url'] = values['homeBannerSubBanner1Image'].original_url
     } else values['content']['home_banner']['sub_banner_1']['image_url'] = ''
 
+    if (values['homeMobileBannerSubBanner1Image']) {
+        values['content']['home_Mobile_banner']['sub_banner_1']['image_url'] = values['homeMobileBannerSubBanner1Image'].original_url
+    } else values['content']['home_Mobile_banner']['sub_banner_1']['image_url'] = ''
+
     if (values['homeBannerSubBanner2Image']) {
         values['content']['home_banner']['sub_banner_2']['image_url'] = values['homeBannerSubBanner2Image'].original_url
     } else values['content']['home_banner']['sub_banner_2']['image_url'] = ''
+
+    if (values['homeMobileBannerSubBanner2Image']) {
+        values['content']['home_Mobile_banner']['sub_banner_2']['image_url'] = values['homeMobileBannerSubBanner2Image'].original_url
+    } else values['content']['home_Mobile_banner']['sub_banner_2']['image_url'] = ''
 
     if (values['mainLeftBanner1']) {
         values['content']['main_content']['sidebar']['left_side_banners']['banner_1']['image_url'] = values['mainLeftBanner1'].original_url

@@ -64,8 +64,11 @@ const HomePage1InitialValue = (data) => {
 
         // images
         homeBannerMainImage: data?.content?.home_banner?.main_banner?.image_url ? { original_url: data?.content?.home_banner?.main_banner?.image_url } : "",
+        homeMobileBannerMainImage: data?.content?.home_Mobile_banner?.main_banner?.image_url ? { original_url: data?.content?.home_Mobile_banner?.main_banner?.image_url } : "",
         homeBannerSubBanner1Image: data?.content?.home_banner?.sub_banner_1?.image_url ? { original_url: data?.content?.home_banner?.sub_banner_1?.image_url } : "",
+        homeMobileBannerSubBanner1Image: data?.content?.home_Mobile_banner?.sub_banner_1?.image_url ? { original_url: data?.content?.home_Mobile_banner?.sub_banner_1?.image_url } : "",
         homeBannerSubBanner2Image: data?.content?.home_banner?.sub_banner_2?.image_url ? { original_url: data?.content?.home_banner?.sub_banner_2?.image_url } : "",
+        homeMobileBannerSubBanner2Image: data?.content?.home_Mobile_banner?.sub_banner_2?.image_url ? { original_url: data?.content?.home_Mobile_banner?.sub_banner_2?.image_url } : "",
         mainLeftBanner1: data?.content?.main_content?.sidebar?.left_side_banners?.banner_1?.image_url ? { original_url: data?.content?.main_content?.sidebar?.left_side_banners?.banner_1?.image_url } : "",
         mainLeftBanner2: data?.content?.main_content?.sidebar?.left_side_banners?.banner_2?.image_url ? { original_url: data?.content?.main_content?.sidebar?.left_side_banners?.banner_2?.image_url } : "",
         newsLetterImage: data?.content?.news_letter?.image_url ? { original_url: data?.content?.news_letter?.image_url } : "",
