@@ -52,7 +52,7 @@ const InvoiceSummary = ({ data }) => {
         const productDetail = orderDetails?.products?.map((product) => {
             return {
                 "name": product?.name,
-                "sku": product?.sku || 'default-sku',  // Replace with actual SKU or a default value
+                "sku": product?.sku || `${product?.name}-${product?.id}`,  // Replace with actual SKU or a default value
                 "units": product?.units || 1,
                 "selling_price": product?.selling_price || 0,
                 "discount": product?.discount || 0,
@@ -87,16 +87,26 @@ const InvoiceSummary = ({ data }) => {
             "height": Number(formData.parcelHeight),
             "weight": Number(formData.parcelWeight)
         }
+        // try {
+        //     const response = await axios.post(
+        //         `${SHIPROCKET_API_URL}/orders/create/adhoc`,
+        //         orderPayload,
+        //         {
+        //             headers: {
+        //                 Authorization: `Bearer ${token}`,
+        //             },
+        //         }
+        //     );
         try {
-            const response = await axios.post(
-                `${SHIPROCKET_API_URL}/orders/create/adhoc`,
-                orderPayload,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
+            const response = await axios({
+              method: 'post',
+              url:  `${SHIPROCKET_API_URL}/orders/create/adhoc`,
+              data: orderPayload,
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`, // Replace with your API key
+              },
+            });
             return response.data;
         } catch (error) {
             throw new Error('Unable to create order');
