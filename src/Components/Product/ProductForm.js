@@ -5,10 +5,16 @@ import { Row, Col, Card } from "reactstrap";
 import FormBtn from "../../Elements/Buttons/FormBtn";
 import request from "../../Utils/AxiosUtils";
 import { product } from "../../Utils/AxiosUtils/API";
-import { YupObject, nameSchema } from "../../Utils/Validation/ValidationSchemas";
+import {
+  YupObject,
+  nameSchema,
+} from "../../Utils/Validation/ValidationSchemas";
 import Loader from "../CommonComponent/Loader";
-import TabForProduct from '@/Components/Product/Widgets/TabForProduct';
-import { ProductInitValues, ProductValidationSchema } from "./Widgets/ProductObjects";
+import TabForProduct from "@/Components/Product/Widgets/TabForProduct";
+import {
+  ProductInitValues,
+  ProductValidationSchema,
+} from "./Widgets/ProductObjects";
 import ProductSubmitFunction from "./Widgets/ProductSubmitFunction";
 import SettingContext from "../../Helper/SettingContext";
 import AllProductTabs from "../Product/Widgets/AllProductTabs";
@@ -17,48 +23,76 @@ import Btn from "@/Elements/Buttons/Btn";
 import { useRouter } from "next/navigation";
 import AccountContext from "@/Helper/AccountContext";
 
-const ProductForm = ({ mutate, loading, updateId, title ,buttonName ,saveButton ,setSaveButton}) => {
+const ProductForm = ({
+  mutate,
+  loading,
+  updateId,
+  title,
+  buttonName,
+  saveButton,
+  setSaveButton,
+}) => {
   const router = useRouter();
-  const { t } = useTranslation( 'common');
+  const { t } = useTranslation("common");
   const [activeTab, setActiveTab] = useState("1");
-  const { state } = useContext(SettingContext)
-  const { data: oldData, isLoading: oldDataLoading, refetch, status } = useQuery([updateId], () => request({ url: `${product}/${updateId}` }), { refetchOnWindowFocus: false, enabled: false, select: (data) => data.data });
+  const { state } = useContext(SettingContext);
+  const {
+    data: oldData,
+    isLoading: oldDataLoading,
+    refetch,
+    status,
+  } = useQuery([updateId], () => request({ url: `${product}/${updateId}` }), {
+    refetchOnWindowFocus: false,
+    enabled: false,
+    select: (data) => data.data,
+  });
   useEffect(() => {
     if (updateId) {
       !saveButton && refetch();
     }
   }, [updateId]);
-  const watchEvent = useCallback((oldData, updateId) => {
-    return ProductInitValues(oldData, updateId)
-  }, [oldData, updateId])
-  const {role,accountData} =useContext(AccountContext)
+  const watchEvent = useCallback(
+    (oldData, updateId) => {
+      return ProductInitValues(oldData, updateId);
+    },
+    [oldData, updateId]
+  );
+  const { role, accountData } = useContext(AccountContext);
 
-
-  if ((updateId && oldDataLoading)) return <Loader />;
+  if (updateId && oldDataLoading) return <Loader />;
   return (
     <Formik
       initialValues={{ ...watchEvent(oldData, updateId) }}
       validationSchema={YupObject({
         ...ProductValidationSchema,
-        store_id: state?.isMultiVendor  && role === 'admin' && nameSchema
+        store_id: state?.isMultiVendor && role === "admin" && nameSchema,
       })}
       onSubmit={(values) => {
         if (updateId) {
-          values["_method"] = "put"
-        //  ProductSubmitFunction(mutate, values, updateId);
+          values["_method"] = "put";
+          //  ProductSubmitFunction(mutate, values, updateId);
         }
-        if(role == "vendor"){
-          values["store_id"]=accountData?.store?.id
+        if (role == "vendor") {
+          values["store_id"] = accountData?.store?.id;
         }
-        if(!values["watermark"]){
-          values["watermark_image_id"] = ""
+        if (!values["watermark"]) {
+          values["watermark_image_id"] = "";
         }
-        if(!values["is_licensable"]){
-          values["separator","license_key"] = ""
+        if (!values["is_licensable"]) {
+          values[("separator", "license_key")] = "";
         }
         ProductSubmitFunction(mutate, values, updateId);
-      }}>
-      {({ values, setFieldValue, errors, touched ,isSubmitting ,setErrors,setTouched }) => (
+      }}
+    >
+      {({
+        values,
+        setFieldValue,
+        errors,
+        touched,
+        isSubmitting,
+        setErrors,
+        setTouched,
+      }) => (
         <Form className="theme-form theme-form-2 mega-form vertical-tabs">
           <Row>
             <Col>
@@ -68,14 +102,47 @@ const ProductForm = ({ mutate, loading, updateId, title ,buttonName ,saveButton 
                 </div>
                 <Row>
                   <Col xl="3" lg="4">
-                    <TabForProduct values={values}  activeTab={activeTab} setActiveTab={setActiveTab}  errors={errors} touched={touched}/>
+                    <TabForProduct
+                      values={values}
+                      activeTab={activeTab}
+                      setActiveTab={setActiveTab}
+                      errors={errors}
+                      touched={touched}
+                    />
                   </Col>
-                  <AllProductTabs setErrors={setErrors} setTouched={setTouched} touched={touched} values={values} activeTab={activeTab} isSubmitting={isSubmitting} setFieldValue={setFieldValue} errors={errors} updateId={updateId} setActiveTab={setActiveTab} />
+                  <AllProductTabs
+                    setErrors={setErrors}
+                    setTouched={setTouched}
+                    touched={touched}
+                    values={values}
+                    activeTab={activeTab}
+                    isSubmitting={isSubmitting}
+                    setFieldValue={setFieldValue}
+                    errors={errors}
+                    updateId={updateId}
+                    setActiveTab={setActiveTab}
+                  />
                   <div className="ms-auto justify-content-end dflex-wgap mt-sm-4 mt-2 save-back-button">
-                    <Btn className="btn-outline btn-lg" title="Back" onClick={() => router.back()} />
-                    {updateId && <Btn className="btn-outline btn-lg" type="submit" title={`save&Continue`} onClick={() => setSaveButton(true)} />}
-                    <Btn className="btn-primary btn-lg" type="submit" title={buttonName}  onClick={() => setSaveButton &&setSaveButton(false)} />
-                 </div>
+                    <Btn
+                      className="btn-outline btn-lg"
+                      title="Back"
+                      onClick={() => router.back()}
+                    />
+                    {updateId && (
+                      <Btn
+                        className="btn-outline btn-lg"
+                        type="submit"
+                        title={`save&Continue`}
+                        onClick={() => setSaveButton(true)}
+                      />
+                    )}
+                    <Btn
+                      className="btn-primary btn-lg"
+                      type="submit"
+                      title={buttonName}
+                      onClick={() => setSaveButton && setSaveButton(false)}
+                    />
+                  </div>
                 </Row>
               </Card>
             </Col>
