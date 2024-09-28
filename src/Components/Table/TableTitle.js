@@ -40,6 +40,8 @@ const TableTitle = ({
   const [create] = usePermissionCheck(["create"]);
   const [file, setFile] = useState(null);
   const [modal, setModal] = useState(false);
+  const [hideFile, setHideFile] = useState(false);
+  const [updateVariation, setUpdateVariation] = useState(false);
 
   const { mutate: importMutate, isLoading: exportLoader } = useCreate(
     "/exportUpdateProducts",
@@ -61,6 +63,27 @@ const TableTitle = ({
     "blob"
   );
 
+  const { mutate: exportVariation, isLoading: exportVariationLoader } =
+    useCreate(
+      "/exportUpdateVariation",
+      false,
+      false,
+      false,
+      (resDta) => {
+        if (resDta?.status === 200 || resDta?.status === 201) {
+          const blob = new Blob([resDta?.data], { type: "text/csv" });
+          const url = window.URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = `${moduleName.toLowerCase()}.csv`;
+          link.click();
+          window.URL.revokeObjectURL(url);
+        }
+      },
+      false,
+      "blob"
+    );
+
   const { mutate, isLoading } = useCreate(
     "/importUpdateProducts",
     false,
@@ -70,10 +93,25 @@ const TableTitle = ({
       if (resData?.status === 200 || resData?.status === 201) {
         refetch();
         setModal(false);
+        setHideFile(true);
+        setUpdateVariation(false);
       }
     }
   );
-  
+
+  const { mutate: importVariation, isLoadingVariation } = useCreate(
+    "/importUpdateVariation",
+    false,
+    false,
+    `${moduleName} added successfully`,
+    (resData) => {
+      if (resData?.status === 200 || resData?.status === 201) {
+        refetch();
+        setModal(false);
+        setHideFile(false);
+      }
+    }
+  );
 
   const handleImportClick = () => {
     importMutate(); // Triggers the export API call
@@ -94,7 +132,7 @@ const TableTitle = ({
           exportButton={exportButton}
         />
       )}
-      {console.log(moduleName, ".....")}
+
       {moduleName === "Product" ? (
         <button
           onClick={() => handleImportClick()}
@@ -103,12 +141,28 @@ const TableTitle = ({
           {t("Export Update")}
         </button>
       ) : null}
+
       {moduleName === "Product" ? (
         <button
-          onClick={() => setModal(true)}
+          onClick={() => {
+            setModal(true);
+            setUpdateVariation(false);
+          }}
           className="btn-outline btn btn-secondary"
         >
           {t("Import Update")}
+        </button>
+      ) : null}
+
+      {moduleName === "Product" ? (
+        <button
+          onClick={() => {
+            setModal(true); // Set the `modal` state
+            setUpdateVariation(true); // Set the other state
+          }}
+          className="btn-outline btn btn-secondary"
+        >
+          {t("Update variation")}
         </button>
       ) : null}
 
@@ -146,19 +200,23 @@ const TableTitle = ({
       >
         <TabContent>
           <Formik
-           initialValues={{ product: "" }}
-           validationSchema={YupObject({
-             product: requiredSchema,
-           })}
-           onSubmit={(values, { resetForm }) => {
-            let formData = new FormData();
-            Object.values(values['product']).forEach(el => {
-              if (el) {
-                formData.append('product', el);
+            initialValues={{ product: "" }}
+            validationSchema={YupObject({
+              product: requiredSchema,
+            })}
+            onSubmit={(values, { resetForm }) => {
+              let formData = new FormData();
+              Object.values(values["product"]).forEach((el) => {
+                if (el) {
+                  formData.append("product", el);
+                }
+              });
+              if (updateVariation) {
+                importVariation(formData);
+              } else {
+                mutate(formData);
               }
-            });
-            mutate(formData);
-          }}
+            }}
           >
             {({ values, setFieldValue, errors, handleSubmit }) => (
               <form
@@ -189,32 +247,34 @@ const TableTitle = ({
                       </div>
                     </div>
                   </div>
-                  <p>
-                    {t("downloadExampleCSV")}
-                    <a
-                      className="ms-2"
-                      href={`/assets/csv/${importExport?.sampleFile}`}
-                      download={importExport?.sampleFile}
-                    >
-                      {t(
-                        importExport?.sampleFile?.includes("csv")
-                          ? "Here"
-                          : "ReadTheInstructions"
+                  {hideFile ? (
+                    <p>
+                      {t("downloadExampleCSV")}
+                      <a
+                        className="ms-2"
+                        href={`/assets/csv/${importExport?.sampleFile}`}
+                        download={importExport?.sampleFile}
+                      >
+                        {t(
+                          importExport?.sampleFile?.includes("csv")
+                            ? "Here"
+                            : "ReadTheInstructions"
+                        )}
+                      </a>
+                      {importExport?.instructionsAndSampleFile && (
+                        <>
+                          {t("and_please_ensure_you")}
+                          <a
+                            href={`/assets/csv/${importExport?.sampleFile}`}
+                            download={importExport?.instructions}
+                          >
+                            {" "}
+                            {t("read_the_instructions")}{" "}
+                          </a>
+                        </>
                       )}
-                    </a>
-                    {importExport?.instructionsAndSampleFile && (
-                      <>
-                        {t("and_please_ensure_you")}
-                        <a
-                          href={`/assets/csv/${importExport?.sampleFile}`}
-                          download={importExport?.instructions}
-                        >
-                          {" "}
-                          {t("read_the_instructions")}{" "}
-                        </a>
-                      </>
-                    )}
-                  </p>
+                    </p>
+                  ) : null}
                 </TabPane>
                 <div className="modal-footer">
                   {values[moduleName.toLowerCase()] &&
@@ -226,6 +286,14 @@ const TableTitle = ({
                         {t("Clear")}
                       </a>
                     )}
+                  {updateVariation ? (
+                    <button
+                      onClick={() => exportVariation()}
+                      className="btn-outline btn btn-secondary margin-0"
+                    >
+                      {t("Import variation")}
+                    </button>
+                  ) : null}
                   <Btn
                     type="submit"
                     className="btn-theme ms-auto"
