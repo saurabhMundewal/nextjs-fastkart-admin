@@ -251,7 +251,6 @@ const InvoiceSummary = ({ data }) => {
             </form>
           </div>
         )}
-        {console.log(data, "data")}
         <div className="tracking-total tracking-wrapper">
           <ul>
             <li>
